@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  webapp:
+    restart: always
+    hostname: bookmarks-webapp
+    container_name: bookmarks-webapp
+    expose:
+      - 8080
+    build:
+      context: /Users/18301689/Kotlin/bookmarks/
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    restart: always
+    hostname: bookmarks-db
+    container_name: bookmarks-db
+    ports:
+      - 5432:5432
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: bookmarks
+      POSTGRES_USER: bookmarks
+      POSTGRES_PASSWORD: bookmarks
+    volumes:
+      - /Users/18301689/Kotlin/bookmarks/src/main/resources/volumes/db:/var/lib/postgresql/data/pgdata
